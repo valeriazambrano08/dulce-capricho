@@ -171,3 +171,41 @@
     height: 52px;
   }
 }
+
+/* ===== Categorías ===== */
+.categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.categoria-tarjeta {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 32px 16px;
+  text-align: center;
+  box-shadow: var(--sombra);
+  transition: transform .25s, box-shadow .25s;
+}
+
+.categoria-tarjeta:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(74, 42, 28, 0.18);
+}
+
+.categoria-emoji {
+  display: block;
+  font-size: 2.8rem;
+  margin-bottom: 8px;
+}
+
+.categoria-tarjeta h3 {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .categorias-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
