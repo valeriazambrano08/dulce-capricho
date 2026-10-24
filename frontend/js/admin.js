@@ -91,3 +91,26 @@ document.getElementById('btnRestaurar').addEventListener('click', () => {
     dibujarTabla();
   }
 });
+// ===== Generador de posts para Instagram =====
+const selPost = document.getElementById('postProducto');
+const resPost = document.getElementById('resultadoPost');
+
+function llenarSelect() {
+  selPost.innerHTML = obtenerProductos()
+    .map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
+}
+llenarSelect();
+
+document.getElementById('btnPost').addEventListener('click', () => {
+  const p = obtenerProductos().find(x => x.id === Number(selPost.value));
+  if (!p) { resPost.textContent = 'Elige un producto primero 🥲'; return; }
+  resPost.textContent = 'Preparando tu post... ✨';
+  setTimeout(() => {
+    resPost.textContent =
+`${p.emoji} ¡Antojo del día! ${p.nombre} por solo $${Number(p.precio).toFixed(2)}.
+${p.descripcion}
+
+Pídelo hoy y déjate enamorar 💕
+#DulceCapricho #SaborQueEnamora #PostresArtesanales #${p.categoria.replace('-', '')}`;
+  }, 500);
+});
