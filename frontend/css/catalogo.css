@@ -1,0 +1,22 @@
+.filtros { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 36px; }
+.filtro {
+  padding: 8px 20px; border-radius: 50px; border: 2px solid var(--cafe);
+  background: transparent; color: var(--cafe); font-family: inherit;
+  font-weight: 500; cursor: pointer; transition: all .2s;
+}
+.filtro:hover, .filtro.activo { background: var(--rosa); border-color: var(--rosa); color: var(--blanco); }
+
+.productos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 22px; }
+.producto {
+  background: var(--blanco); border-radius: var(--radio); overflow: hidden;
+  box-shadow: var(--sombra); transition: transform .25s;
+  animation: aparecer .4s ease both;
+}
+.producto:hover { transform: translateY(-6px); }
+.producto-imagen { background: #F6DCD0; font-size: 4rem; text-align: center; padding: 36px 0; }
+.producto-info { padding: 18px; }
+.producto-info h3 { font-size: 1.1rem; margin-bottom: 6px; }
+.producto-info p { font-size: .9rem; opacity: .8; margin-bottom: 12px; }
+.producto-precio { font-weight: 600; color: var(--caramelo); font-size: 1.2rem; }
+
+@keyframes aparecer { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
