@@ -1,0 +1,47 @@
+/* ===== Variables de la marca Dulce Capricho ===== */
+:root {
+  --crema: #FBEFE6;
+  --cafe: #4A2A1C;
+  --rosa: #E08A8F;
+  --caramelo: #C98A3E;
+  --blanco: #FFFFFF;
+  --radio: 20px;
+  --sombra: 0 8px 24px rgba(74, 42, 28, 0.12);
+}
+
+/* ===== Reset y base ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--crema);
+  color: var(--cafe);
+  line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: 'Fraunces', serif; line-height: 1.2; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+
+.contenedor { width: min(1100px, 92%); margin: 0 auto; }
+section { padding: 70px 0; }
+
+.titulo-seccion { text-align: center; font-size: 2rem; margin-bottom: 8px; }
+.subtitulo-seccion { text-align: center; opacity: .75; margin-bottom: 40px; }
+
+/* ===== Botones tipo píldora ===== */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+.btn:hover { transform: translateY(-3px); }
+.btn-rosa { background: var(--rosa); color: var(--blanco); }
+.btn-rosa:hover { background: var(--caramelo); }
+.btn-borde { border: 2px solid var(--cafe); color: var(--cafe); background: transparent; }
