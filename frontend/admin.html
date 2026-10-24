@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Dulce Capricho</title>
+  <link rel="icon" href="images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Fraunces:wght@600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="contenedor navbar-interno">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/logo.png" alt="Logo Dulce Capricho">
+        <span class="navbar-nombre">Dulce <em>Capricho</em></span>
+      </a>
+      <nav class="navbar-links" style="display:flex">
+        <a href="index.html">Volver al sitio</a>
+        <button class="btn btn-borde" id="btnSalir" style="display:none">Cerrar sesión</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== LOGIN ===== -->
+  <section id="vistaLogin">
+    <div class="contenedor contacto-caja">
+      <h1 class="titulo-seccion">Panel de administrador</h1>
+      <p class="subtitulo-seccion">Solo para el equipo de Dulce Capricho 🔒</p>
+      <form id="formLogin" class="formulario">
+        <input type="text" id="usuario" placeholder="Usuario" autocomplete="off">
+        <input type="password" id="clave" placeholder="Contraseña">
+        <p class="form-estado" id="loginEstado"></p>
+        <button type="submit" class="btn btn-rosa">Entrar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== PANEL ===== -->
+  <section id="vistaPanel" style="display:none">
+    <div class="contenedor">
+      <h1 class="titulo-seccion">Gestión de productos</h1>
+      <p class="subtitulo-seccion">Agrega o elimina productos del catálogo</p>
+
+      <form id="formProducto" class="formulario panel-form">
+        <input type="text" id="pNombre" placeholder="Nombre del producto">
+        <select id="pCategoria">
+          <option value="alfajores">Alfajores</option>
+          <option value="brownies">Brownies</option>
+          <option value="cheesecake">Cheesecake</option>
+          <option value="tortas">Tortas</option>
+          <option value="pave">Pavé</option>
+          <option value="mini-donas">Mini donas</option>
+        </select>
+        <input type="number" id="pPrecio" placeholder="Precio" step="0.01" min="0">
+        <textarea id="pDescripcion" rows="2" placeholder="Descripción corta"></textarea>
+        <p class="form-estado" id="productoEstado"></p>
+        <button type="submit" class="btn btn-rosa">Agregar producto</button>
+      </form>
+
+      <div class="tabla-caja">
+        <table class="tabla">
+          <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th></th></tr></thead>
+          <tbody id="tablaProductos"></tbody>
+        </table>
+      </div>
+      <button class="btn btn-borde" id="btnRestaurar" style="margin-top:16px">Restaurar catálogo original</button>
+    </div>
+
+    <!-- ===== GENERADORES (se agregan en commits siguientes) ===== -->
+    <div class="contenedor" id="zonaGeneradores"></div>
+  </section>
+
+  <script src="js/productos.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
