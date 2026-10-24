@@ -79,8 +79,14 @@ chatForm.addEventListener('submit', (e) => {
   agregar('yo', texto);
   chatInput.value = '';
   agregar('bot', 'Pensando tu antojo... 🍩');
-  setTimeout(() => {
+   setTimeout(() => {
     chatMensajes.lastChild.remove();
     agregar('bot', responder(texto));
   }, 700);
+});
+
+// El botón del menú también abre el chat
+document.getElementById('abrirAsesor').addEventListener('click', (e) => {
+  e.preventDefault();
+  chatBtn.click();
 });
