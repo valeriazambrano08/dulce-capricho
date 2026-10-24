@@ -209,3 +209,65 @@
     gap: 14px;
   }
 }
+
+/* ===== Contacto ===== */
+.contacto-caja {
+  max-width: 640px;
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 40px 32px;
+  box-shadow: var(--sombra);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.formulario input,
+.formulario textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 14px 18px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: var(--crema);
+  color: var(--cafe);
+  outline: none;
+  transition: border-color .2s;
+}
+
+.formulario input:focus,
+.formulario textarea:focus {
+  border-color: var(--rosa);
+}
+
+.form-estado {
+  min-height: 1.4em;
+  font-size: .95rem;
+  font-weight: 500;
+}
+
+.form-estado.error { color: #c0392b; }
+.form-estado.ok { color: #2e8b57; }
+
+/* ===== Footer ===== */
+.footer {
+  background: var(--cafe);
+  color: var(--crema);
+  text-align: center;
+  padding: 40px 0;
+}
+
+.footer-logo {
+  height: 80px;
+  width: auto;
+  margin: 0 auto 12px;
+}
+
+.footer-pequeno {
+  font-size: .85rem;
+  opacity: .7;
+  margin-top: 6px;
+}
