@@ -180,34 +180,63 @@
 }
 
 .categoria-tarjeta {
-  background: var(--blanco);
+  position: relative;
+  aspect-ratio: 4 / 5;
   border-radius: var(--radio);
-  padding: 32px 16px;
-  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-color: #F6DCD0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22px;
+  color: var(--crema);
+  overflow: hidden;
   box-shadow: var(--sombra);
-  transition: transform .25s, box-shadow .25s;
+  transition: transform .3s, box-shadow .3s;
+}
+
+/* Degradado para que el texto se lea sobre cualquier foto */
+.categoria-tarjeta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(74, 42, 28, .85) 0%, rgba(74, 42, 28, 0) 60%);
+  transition: opacity .3s;
+}
+
+.categoria-tarjeta h3,
+.categoria-tarjeta span {
+  position: relative;
+  z-index: 1;
+}
+
+.categoria-tarjeta h3 {
+  font-size: 1.5rem;
+}
+
+.categoria-tarjeta span {
+  font-size: .9rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all .3s;
 }
 
 .categoria-tarjeta:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 30px rgba(74, 42, 28, 0.18);
+  box-shadow: 0 14px 30px rgba(74, 42, 28, 0.25);
 }
 
-.categoria-emoji {
-  display: block;
-  font-size: 2.8rem;
-  margin-bottom: 8px;
+.categoria-tarjeta:hover span {
+  opacity: 1;
+  transform: none;
 }
 
-.categoria-tarjeta h3 {
-  font-size: 1.2rem;
-}
-
-@media (max-width: 600px) {
-  .categorias-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
+@media (max-width: 800px) {
+  .categorias-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .categoria-tarjeta { aspect-ratio: 1 / 1; padding: 16px; }
+  .categoria-tarjeta h3 { font-size: 1.2rem; }
+  .categoria-tarjeta span { opacity: 1; transform: none; }
 }
 
 /* ===== Contacto ===== */
