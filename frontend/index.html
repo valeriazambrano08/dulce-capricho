@@ -36,7 +36,7 @@
     <div class="contenedor hero-interno">
       <div class="hero-texto" data-aos="fade-right">
         <p class="hero-etiqueta">Postres artesanales</p>
-        <h1>Postres que son un <span>capricho</span> 🍰</h1>
+        <h1>Postres que son un <span>capricho</span></h1>
         <p>Alfajores, brownies, cheesecake y más. Sabor que enamora, hecho con cariño.</p>
         <div class="hero-botones">
           <a href="catalogo.html" class="btn btn-rosa">Ver catálogo</a>
@@ -44,7 +44,10 @@
         </div>
       </div>
       <div class="hero-imagen" data-aos="fade-left">
-        <img src="images/logo.png" alt="Dulce Capricho, sabor que enamora">
+        <div class="hero-marco">
+          <img src="images/cheesecake-frutos-rojos.jpg" alt="Cheesecake de frutos rojos de Dulce Capricho">
+        </div>
+        <div class="hero-sello">Hecho a mano</div>
       </div>
     </div>
   </section>
@@ -53,10 +56,10 @@
   <section class="categorias">
     <div class="contenedor">
       <h2 class="titulo-seccion" data-aos="fade-up">¿Qué se te antoja hoy?</h2>
-      <p class="subtitulo-seccion" data-aos="fade-up" data-aos-delay="100">Elige tu categoría favorita y déjate enamorar 💕</p>
+      <p class="subtitulo-seccion" data-aos="fade-up" data-aos-delay="100">Elige tu categoría favorita y déjate enamorar</p>
 
-            <div class="categorias-grid">
-        <a href="catalogo.html#alfajores" class="categoria-tarjeta" style="background-image:url('imagens/alfajor-clasico.jpg')" data-aos="zoom-in" data-aos-delay="100">
+      <div class="categorias-grid">
+        <a href="catalogo.html#alfajores" class="categoria-tarjeta" style="background-image:url('images/alfajor-clasico.jpg')" data-aos="zoom-in" data-aos-delay="100">
           <h3>Alfajores</h3>
           <span>Ver todos →</span>
         </a>
@@ -84,70 +87,31 @@
     </div>
   </section>
 
+  <!-- ===== FAVORITOS ===== -->
+  <section class="favoritos">
+    <div class="contenedor">
+      <h2 class="titulo-seccion" data-aos="fade-up">Nuestros favoritos</h2>
+      <p class="subtitulo-seccion" data-aos="fade-up" data-aos-delay="100">Los que más se piden y los que más enamoran</p>
+      <div class="favoritos-grid" id="favoritosGrid"></div>
+      <div style="text-align:center; margin-top:36px">
+        <a href="catalogo.html" class="btn btn-borde">Ver todo el catálogo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HISTORIA ===== -->
+  <section class="historia">
+    <div class="contenedor historia-caja" data-aos="fade-up">
+      <p class="historia-etiqueta">Nuestra historia</p>
+      <h2>Hecho a mano en Guayaquil, con ingredientes frescos</h2>
+      <p>Cada postre sale de nuestra cocina con el mismo cuidado que le pondríamos a uno para nuestra propia familia. Sin atajos, sin conservantes y con muchas ganas de sacarte una sonrisa.</p>
+    </div>
+  </section>
+
   <!-- ===== DEDICATORIAS ===== -->
   <section class="dedicatorias">
     <div class="contenedor contacto-caja" data-aos="fade-up">
-      <h2 class="titulo-seccion">¿Un regalo con mensaje? 🎁</h2>
+      <h2 class="titulo-seccion">¿Un regalo con mensaje?</h2>
       <p class="subtitulo-seccion">Te escribimos la dedicatoria perfecta</p>
       <form id="formDedicatoria" class="formulario">
         <input type="text" id="dedNombre" placeholder="¿Para quién es?">
-        <select id="dedTono">
-          <option value="romantico">Romántico 💕</option>
-          <option value="divertido">Divertido 😂</option>
-          <option value="tierno">Tierno 🌷</option>
-        </select>
-        <button type="submit" class="btn btn-rosa">Crear mensaje</button>
-      </form>
-      <p class="resultado" id="resultadoDedicatoria" style="margin-top:16px"></p>
-    </div>
-  </section>
-
-  <!-- ===== CONTACTO ===== -->
-  <section class="contacto" id="contacto">
-    <div class="contenedor contacto-caja" data-aos="fade-up">
-      <h2 class="titulo-seccion">Cuéntanos qué se te antoja</h2>
-      <p class="subtitulo-seccion">Pedidos, cumpleaños, eventos... nosotros nos encargamos 🎂</p>
-
-      <form id="formContacto" class="formulario" novalidate>
-        <input type="text" id="nombre" placeholder="Tu nombre" required>
-        <input type="email" id="correo" placeholder="Tu correo" required>
-        <textarea id="mensaje" rows="4" placeholder="¿Qué postre quieres?" required></textarea>
-        <p class="form-estado" id="formEstado"></p>
-        <button type="submit" class="btn btn-rosa">Enviar mensaje</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="contenedor footer-interno">
-      <img src="images/logo.png" alt="Dulce Capricho" class="footer-logo">
-      <p>Dulce Capricho · Sabor que enamora</p>
-      <p class="footer-pequeno">© 2026 Dulce Capricho. Hecho con amor 💕</p>
-      <p class="footer-pequeno"><a href="admin.html">Acceso administrador</a></p>
-    </div>
-  </footer>
-
-  <!-- ===== CHATBOT ===== -->
-  <button class="chat-btn" id="chatBtn" aria-label="Abrir asesor de antojos">💬</button>
-  <div class="chat-box" id="chatBox">
-    <div class="chat-cabecera">
-      <span>Asesor de Antojos 🍰</span>
-      <button id="chatCerrar" aria-label="Cerrar">✕</button>
-    </div>
-    <div class="chat-mensajes" id="chatMensajes"></div>
-    <form class="chat-form" id="chatForm">
-      <input type="text" id="chatInput" placeholder="Ej: cumpleaños, 8 personas" autocomplete="off">
-      <button type="submit" class="btn btn-rosa">Enviar</button>
-    </form>
-  </div>
-
-  <!-- ===== SCRIPTS ===== -->
-  <script src="js/productos.js"></script>
-  <script src="js/chatbot.js"></script>
-  <script src="js/dedicatorias.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ duration: 700, once: true });</script>
-  <script src="js/main.js"></script>
-</body>
-</html>
