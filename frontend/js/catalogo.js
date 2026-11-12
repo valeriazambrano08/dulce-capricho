@@ -9,6 +9,7 @@ const CATEGORIAS = [
 ];
 const grid = document.getElementById('grid');
 const filtros = document.getElementById('filtros');
+let PRODUCTOS = [];
 
 // Imagen con efecto "ver por dentro": la foto interior lleva el sufijo -interior.
 // Si no existe la foto, se muestra el emoji; si no existe la interior, no hay efecto.
@@ -24,7 +25,7 @@ function tarjetaImagen(p) {
 
 // Dibuja las tarjetas según la categoría elegida
 function mostrar(categoria) {
-  const lista = obtenerProductos().filter(p => categoria === 'todos' || p.categoria === categoria);
+  const lista = PRODUCTOS.filter(p => categoria === 'todos' || p.categoria === categoria);
   grid.innerHTML = lista.length
     ? lista.map(p => `
       <article class="producto">
@@ -49,7 +50,11 @@ filtros.addEventListener('click', e => {
 });
 
 // Si llegan desde el home con #brownies, abre esa categoría
-mostrar(location.hash.replace('#', '') || 'todos');
+grid.innerHTML = '<p>Preparando los antojos...</p>';
+cargarProductos().then(lista => {
+  PRODUCTOS = lista;
+  mostrar(location.hash.replace('#', '') || 'todos');
+});
 
 // ===== Carrito sencillo con pedido por WhatsApp =====
 const NUMERO_WHATSAPP = '593992085305';
@@ -79,7 +84,7 @@ function enviarPedido() {
 // Un solo "click" para todo: agregar al carrito y voltear foto en celular
 grid.addEventListener('click', (e) => {
   if (e.target.classList.contains('btn-agregar')) {
-    const p = obtenerProductos().find(x => x.id === Number(e.target.dataset.id));
+    const p = PRODUCTOS.find(x => String(x.id) === e.target.dataset.id)
     const existente = carrito.find(i => i.id === p.id);
     if (existente) existente.cant++;
     else carrito.push({ id: p.id, nombre: p.nombre, precio: Number(p.precio), cant: 1 });

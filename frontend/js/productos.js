@@ -21,3 +21,18 @@ function obtenerProductos() {
     return PRODUCTOS_BASE;
   }
 }
+// Dirección de la API. En local es localhost; al desplegar en Render se cambia por su URL.
+const API_URL = 'http://localhost:3000';
+
+// Pide los productos a la API; si falla, usa la lista de respaldo.
+async function cargarProductos() {
+  try {
+    const res = await fetch(`${API_URL}/api/productos`);
+    if (!res.ok) throw new Error('Respuesta no válida');
+    const datos = await res.json();
+    return datos.map(p => ({ ...p, id: p._id }));
+  } catch (e) {
+    console.warn('API no disponible, usando catálogo de respaldo');
+    return PRODUCTOS_BASE;
+  }
+}
