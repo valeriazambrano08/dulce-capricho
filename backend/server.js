@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());          // permite que el frontend (GitHub Pages) llame a esta API
 app.use(express.json());  // permite leer JSON en las peticiones
-
+app.use('/api/productos', require('./routes/productos'));
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.json({ mensaje: 'API de Dulce Capricho funcionando' });
