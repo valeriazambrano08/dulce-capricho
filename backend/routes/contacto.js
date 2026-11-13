@@ -1,9 +1,10 @@
-// Rutas de contacto: guardar mensajes (público) y listarlos (luego se protegerá con login).
+// Rutas de contacto: guardar mensajes (público) y listarlos (solo admin).
 const express = require('express');
 const Mensaje = require('../models/Mensaje');
 const router = express.Router();
+const verificarToken = require('../middleware/auth');
 
-// POST /api/contacto -> guarda un mensaje
+// POST /api/contacto -> guarda un mensaje (público)
 router.post('/', async (req, res) => {
   const { nombre, correo, mensaje } = req.body;
   if (!nombre || !correo || !mensaje || !/^\S+@\S+\.\S+$/.test(correo)) {
@@ -17,8 +18,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/contacto -> lista mensajes (se protegerá con login)
-router.get('/', async (req, res) => {
+// GET /api/contacto -> lista mensajes (requiere token)
+router.get('/', verificarToken, async (req, res) => {
   try {
     res.json(await Mensaje.find().sort({ createdAt: -1 }));
   } catch (e) {

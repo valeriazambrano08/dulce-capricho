@@ -2,6 +2,7 @@
 const express = require('express');
 const Producto = require('../models/Producto');
 const router = express.Router();
+const verificarToken = require('../middleware/auth');
 
 // GET /api/productos -> lista todos
 router.get('/', async (req, res) => {
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST /api/productos -> crea uno
-router.post('/', async (req, res) => {
+router.post('/', verificarToken, async (req, res) => {
   try {
     res.status(201).json(await Producto.create(req.body));
   } catch (e) {
@@ -22,7 +23,7 @@ router.post('/', async (req, res) => {
 });
 
 // DELETE /api/productos/:id -> borra uno
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verificarToken, async (req, res) => {
   try {
     await Producto.findByIdAndDelete(req.params.id);
     res.json({ ok: true });
