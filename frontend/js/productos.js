@@ -21,8 +21,10 @@ function obtenerProductos() {
     return PRODUCTOS_BASE;
   }
 }
-// Dirección de la API. En local es localhost; al desplegar en Render se cambia por su URL.
-const API_URL = 'http://localhost:3000';
+// Dirección de la API.
+const API_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:3000'
+  : 'https://dulce-capricho-api.onrender.com';
 
 // Pide los productos a la API; si falla, usa la lista de respaldo.
 async function cargarProductos() {
