@@ -10,7 +10,6 @@ app.use(express.json());  // permite leer JSON en las peticiones
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/contacto', require('./routes/contacto'));
 app.use('/api/login', require('./routes/login'));
-app.use('/api/ia', require('./routes/ia'));
 
 // Ruta de prueba
 app.get('/', (req, res) => {
