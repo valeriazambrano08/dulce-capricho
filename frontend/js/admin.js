@@ -1,61 +1,67 @@
-// Login y gestión de productos del panel de admin.
-// OJO: es una demo. En un proyecto real el login se valida en un backend.
-const USUARIO = 'admin';
-const CLAVE = 'capricho2026';
-
+// Panel de admin conectado a la API: login con token, productos y mensajes.
 const vistaLogin = document.getElementById('vistaLogin');
 const vistaPanel = document.getElementById('vistaPanel');
 const btnSalir = document.getElementById('btnSalir');
+const EMOJIS = { alfajores: '🍪', brownies: '🍫', cheesecake: '🍓', tortas: '🍰', pave: '🥧', 'mini-donas': '🍩' };
+
+let PRODUCTOS = [];
+
+const getToken = () => sessionStorage.getItem('token_dc');
+const cabeceras = () => ({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() });
 
 function mostrarPanel(si) {
   vistaLogin.style.display = si ? 'none' : 'block';
   vistaPanel.style.display = si ? 'block' : 'none';
   btnSalir.style.display = si ? 'inline-block' : 'none';
-  if (si) dibujarTabla();
+  if (si) { dibujarTabla(); cargarMensajes(); }
 }
 
-// Mantiene la sesión mientras la pestaña esté abierta
-mostrarPanel(sessionStorage.getItem('admin_dc') === 'si');
-
-document.getElementById('formLogin').addEventListener('submit', (e) => {
+// ===== Login =====
+document.getElementById('formLogin').addEventListener('submit', async (e) => {
   e.preventDefault();
   const estado = document.getElementById('loginEstado');
-  const u = document.getElementById('usuario').value.trim();
-  const c = document.getElementById('clave').value;
-  if (u === USUARIO && c === CLAVE) {
-    sessionStorage.setItem('admin_dc', 'si');
+  estado.className = 'form-estado';
+  estado.textContent = 'Entrando...';
+  try {
+    const res = await fetch(`${API_URL}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        usuario: document.getElementById('usuario').value.trim(),
+        clave: document.getElementById('clave').value
+      })
+    });
+    if (!res.ok) throw new Error('credenciales');
+    const { token } = await res.json();
+    sessionStorage.setItem('token_dc', token);
     estado.textContent = '';
     mostrarPanel(true);
-  } else {
-    estado.textContent = 'Usuario o contraseña incorrectos 🥲';
+  } catch (err) {
+    estado.textContent = 'Usuario o contraseña incorrectos, o el servidor no responde.';
     estado.className = 'form-estado error';
   }
 });
 
 btnSalir.addEventListener('click', () => {
-  sessionStorage.removeItem('admin_dc');
+  sessionStorage.removeItem('token_dc');
   mostrarPanel(false);
 });
-// ===== Gestión de productos (guarda en localStorage) =====
-const EMOJIS = { alfajores: '🍪', brownies: '🍫', cheesecake: '🍓', tortas: '🍰', pave: '🥧', 'mini-donas': '🍩' };
 
-function guardar(lista) {
-  localStorage.setItem('productos_dc', JSON.stringify(lista));
-  dibujarTabla();
-}
-
-function dibujarTabla() {
-  const tbody = document.getElementById('tablaProductos');
-  tbody.innerHTML = obtenerProductos().map(p => `
+// ===== Productos =====
+async function dibujarTabla() {
+  PRODUCTOS = await cargarProductos();
+  document.getElementById('tablaProductos').innerHTML = PRODUCTOS.map(p => `
     <tr>
-      <td>${p.emoji} ${p.nombre}</td>
+      <td>${p.emoji || ''} ${p.nombre}</td>
       <td>${p.categoria}</td>
       <td>$${Number(p.precio).toFixed(2)}</td>
       <td><button class="btn-borrar" data-id="${p.id}" title="Eliminar">🗑️</button></td>
     </tr>`).join('');
+  const sel = document.getElementById('postProducto');
+  if (sel) sel.innerHTML = PRODUCTOS.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
 }
 
-document.getElementById('formProducto').addEventListener('submit', (e) => {
+document.getElementById('formProducto').addEventListener('submit', async (e) => {
   e.preventDefault();
   const estado = document.getElementById('productoEstado');
   const nombre = document.getElementById('pNombre').value.trim();
@@ -64,53 +70,76 @@ document.getElementById('formProducto').addEventListener('submit', (e) => {
   const descripcion = document.getElementById('pDescripcion').value.trim();
 
   if (!nombre || isNaN(precio) || !descripcion) {
-    estado.textContent = 'Completa nombre, precio y descripción 🥲';
+    estado.textContent = 'Completa nombre, precio y descripción.';
     estado.className = 'form-estado error';
     return;
   }
-  const lista = obtenerProductos();
-  const nuevoId = lista.length ? Math.max(...lista.map(p => p.id)) + 1 : 1;
-  lista.push({ id: nuevoId, nombre, categoria, emoji: EMOJIS[categoria], precio, descripcion });
-  guardar(lista);
-  e.target.reset();
-  estado.textContent = '¡Producto agregado! 🎉';
-  estado.className = 'form-estado ok';
-});
-
-document.getElementById('tablaProductos').addEventListener('click', (e) => {
-  const id = e.target.dataset.id;
-  if (!id) return;
-  if (confirm('¿Eliminar este producto?')) {
-    guardar(obtenerProductos().filter(p => p.id !== Number(id)));
-  }
-});
-
-document.getElementById('btnRestaurar').addEventListener('click', () => {
-  if (confirm('¿Volver al catálogo original?')) {
-    localStorage.removeItem('productos_dc');
+  try {
+    const res = await fetch(`${API_URL}/api/productos`, {
+      method: 'POST',
+      headers: cabeceras(),
+      body: JSON.stringify({ nombre, categoria, emoji: EMOJIS[categoria], precio, descripcion })
+    });
+    if (!res.ok) throw new Error('fallo');
+    e.target.reset();
+    estado.textContent = 'Producto agregado.';
+    estado.className = 'form-estado ok';
     dibujarTabla();
+  } catch (err) {
+    estado.textContent = 'No se pudo agregar. Vuelve a iniciar sesión.';
+    estado.className = 'form-estado error';
   }
 });
-// ===== Generador de posts para Instagram =====
-const selPost = document.getElementById('postProducto');
-const resPost = document.getElementById('resultadoPost');
 
-function llenarSelect() {
-  selPost.innerHTML = obtenerProductos()
-    .map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
+document.getElementById('tablaProductos').addEventListener('click', async (e) => {
+  const id = e.target.dataset.id;
+  if (!id || !confirm('¿Eliminar este producto?')) return;
+  try {
+    const res = await fetch(`${API_URL}/api/productos/${id}`, { method: 'DELETE', headers: cabeceras() });
+    if (!res.ok) throw new Error('fallo');
+    dibujarTabla();
+  } catch (err) {
+    alert('No se pudo eliminar. Vuelve a iniciar sesión.');
+  }
+});
+
+// ===== Mensajes de contacto =====
+async function cargarMensajes() {
+  const caja = document.getElementById('tablaMensajes');
+  if (!caja) return;
+  try {
+    const res = await fetch(`${API_URL}/api/contacto`, { headers: cabeceras() });
+    if (!res.ok) throw new Error('fallo');
+    const lista = await res.json();
+    caja.innerHTML = lista.length
+      ? lista.map(m => `
+        <tr>
+          <td>${new Date(m.createdAt).toLocaleDateString()}</td>
+          <td>${m.nombre}</td>
+          <td>${m.correo}</td>
+          <td>${m.mensaje}</td>
+        </tr>`).join('')
+      : '<tr><td colspan="4">Aún no hay mensajes.</td></tr>';
+  } catch (err) {
+    caja.innerHTML = '<tr><td colspan="4">No se pudieron cargar los mensajes.</td></tr>';
+  }
 }
-llenarSelect();
 
+// ===== Generador de posts =====
+const resPost = document.getElementById('resultadoPost');
 document.getElementById('btnPost').addEventListener('click', () => {
-  const p = obtenerProductos().find(x => x.id === Number(selPost.value));
-  if (!p) { resPost.textContent = 'Elige un producto primero 🥲'; return; }
-  resPost.textContent = 'Preparando tu post... ✨';
+  const p = PRODUCTOS.find(x => String(x.id) === document.getElementById('postProducto').value);
+  if (!p) { resPost.textContent = 'Elige un producto primero.'; return; }
+  resPost.textContent = 'Preparando tu post...';
   setTimeout(() => {
     resPost.textContent =
-`${p.emoji} ¡Antojo del día! ${p.nombre} por solo $${Number(p.precio).toFixed(2)}.
+`${p.emoji || ''} ¡Antojo del día! ${p.nombre} por solo $${Number(p.precio).toFixed(2)}.
 ${p.descripcion}
 
-Pídelo hoy y déjate enamorar 💕
+Pídelo hoy y déjate enamorar.
 #DulceCapricho #SaborQueEnamora #PostresArtesanales #${p.categoria.replace('-', '')}`;
   }, 500);
 });
+
+// Al cargar: si ya hay token, entra directo
+mostrarPanel(!!getToken());
