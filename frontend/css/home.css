@@ -479,3 +479,12 @@
 @media (max-width: 800px) {
   .testimonios-grid { grid-template-columns: 1fr; }
 }
+.testimonios-grid { grid-template-columns: repeat(6, 1fr); }
+.testimonio { grid-column: span 2; }
+.testimonio:nth-child(4) { grid-column: 2 / span 2; }
+.testimonio:nth-child(5) { grid-column: 4 / span 2; }
+
+@media (max-width: 800px) {
+  .testimonios-grid { grid-template-columns: 1fr; }
+  .testimonio, .testimonio:nth-child(4), .testimonio:nth-child(5) { grid-column: auto; }
+}
