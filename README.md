@@ -9,7 +9,7 @@ Proyecto final - Jóvenes CreaTIvos, Ruta Avanzada.
 
 ## Funciones
 - Home con marca propia, animaciones (AOS) y diseño responsive
-- Catálogo con fotos, filtros por categoría y efecto "ver por dentro"
+- Catálogo con fotos, filtros por categoría
 - Carrito con pedido por WhatsApp
 - Formulario de contacto que guarda los mensajes en MongoDB
 - Panel de administrador con login (token JWT): agregar y eliminar productos, ver mensajes
@@ -30,4 +30,8 @@ backend/    models, routes, middleware y server.js
 
 ## Cómo correrlo en local
 1. En `backend/` crear un archivo `.env` con `MONGODB_URI`, `ADMIN_USER`, `ADMIN_PASS` y `JWT_SECRET`.
-2.
+2. Dentro de `backend/`: `npm install` y luego `node server.js`.
+3. Abrir `frontend/index.html` con Live Server.
+
+## Próximos pasos
+Conectar el chatbot y los generadores a un modelo de IA desde el backend.
